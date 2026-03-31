@@ -97,8 +97,10 @@ fi
 
 # Microsoft prod repo — official method: download prod.list from Microsoft's config endpoint
 # (used by Intune, Identity Broker, .NET SDK, MDE/mdatp)
+# Strip the VS Code repo line — we manage it separately in vscode.list with explicit signed-by
 if [ ! -f /etc/apt/sources.list.d/microsoft-prod.list ]; then
   curl -sSL "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list" \
+    | grep -v "repos/code" \
     | sudo tee /etc/apt/sources.list.d/microsoft-prod.list > /dev/null
 fi
 

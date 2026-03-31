@@ -27,7 +27,9 @@ echo "deb [arch=amd64 signed-by=/usr/share/keyrings/microsoft-edge.gpg] https://
 
 # Microsoft prod repository — official method: download from Microsoft's config endpoint
 # (covers Intune, Identity Broker, .NET SDK, MDE/mdatp)
+# Strip the VS Code repo line — managed separately in vscode.list with explicit signed-by
 curl -sSL "https://packages.microsoft.com/config/ubuntu/$(lsb_release -rs)/prod.list" \
+  | grep -v "repos/code" \
   | sudo tee /etc/apt/sources.list.d/microsoft-prod.list > /dev/null
 
 # Microsoft insiders-fast repository (optional — for early MDE/Intune updates)

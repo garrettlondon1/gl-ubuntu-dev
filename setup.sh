@@ -76,15 +76,23 @@ if [ ! -f /usr/share/keyrings/microsoft-prod.gpg ]; then
   sudo chmod o+r /usr/share/keyrings/microsoft-prod.gpg
 fi
 
-# VS Code repo
-if [ ! -f /etc/apt/sources.list.d/vscode.list ]; then
+# VS Code repo — use DEB822 .sources format (Ubuntu 24.04+ standard)
+# Remove legacy .list if present to avoid Signed-By conflicts
+sudo rm -f /etc/apt/sources.list.d/vscode.list
+if [ ! -f /etc/apt/sources.list.d/vscode.sources ]; then
   if [ ! -f /etc/apt/keyrings/packages.microsoft.gpg ]; then
     curl -sL https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor > /tmp/packages.microsoft.gpg
     sudo install -D -o root -g root -m 644 /tmp/packages.microsoft.gpg /etc/apt/keyrings/packages.microsoft.gpg
     rm -f /tmp/packages.microsoft.gpg
   fi
-  echo "deb [arch=amd64,arm64,armhf signed-by=/etc/apt/keyrings/packages.microsoft.gpg] https://packages.microsoft.com/repos/code stable main" \
-    | sudo tee /etc/apt/sources.list.d/vscode.list > /dev/null
+  sudo tee /etc/apt/sources.list.d/vscode.sources > /dev/null <<EOF
+Types: deb
+URIs: https://packages.microsoft.com/repos/code
+Suites: stable
+Components: main
+Architectures: amd64 arm64 armhf
+Signed-By: /etc/apt/keyrings/packages.microsoft.gpg
+EOF
 fi
 
 # Edge repo (with signed-by for proper security)

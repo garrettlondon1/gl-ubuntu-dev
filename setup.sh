@@ -136,7 +136,7 @@ code --install-extension enkia.tokyo-night 2>/dev/null || true
 
 echo ""
 echo "▶ Installing .NET SDK..."
-sudo apt install -y dotnet-sdk-9.0 aspnetcore-runtime-9.0
+sudo apt-get install -y dotnet-sdk-10.0 aspnetcore-runtime-10.0
 echo "  .NET $(dotnet --version) installed"
 
 # ─── Microsoft Identity Broker + Intune ───────────────────────────────────────
@@ -638,7 +638,7 @@ echo ""
 echo "  Installed:"
 echo "    • Microsoft Edge (default browser)"
 echo "    • Visual Studio Code + Tokyo Night"
-echo "    • .NET SDK $(dotnet --version 2>/dev/null || echo '9.0')"
+echo "    • .NET SDK $(dotnet --version 2>/dev/null || echo '10.0')"
 echo "    • Microsoft Intune Portal"
 echo "    • Microsoft Defender for Endpoint"
 echo "    • YubiKey Smart Card (pcscd + OpenSC)"
